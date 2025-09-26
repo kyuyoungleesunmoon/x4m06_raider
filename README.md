@@ -1,8 +1,12 @@
-# X4M06 레이더 재밍 신호 복원 연구 프로젝트
+# X4M06 레이더 재밍 신호 연구 프레임워크
 
 [![Python](https://img.shields.io/badge/Python-3.6+-blue.svg)](https://python.org)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Status](https://img.shields.io/badge/Status-Research-orange.svg)](README.md)
+
+## 📋 프로젝트 개요
+
+이 프로젝트는 자율주행 차량용 X4M06 UWB 레이더의 재밍 신호 복구 연구를 위한 완전한 실험 프레임워크를 제공합니다. 딥러닝 기반의 재밍 신호 복구 알고리즘 개발에 필요한 모든 도구와 데이터를 포함합니다.
 
 ## 🎯 연구 목적
 
