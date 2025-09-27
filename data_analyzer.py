@@ -9,9 +9,10 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.font_manager as fm
 import seaborn as sns
 from scipy import signal
-from scipy.fft import fft, fftfreq, stft
+from scipy.fft import fft, fftfreq
 import h5py
 import json
 import os
@@ -21,6 +22,38 @@ from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.decomposition import PCA
 import cv2
 from tqdm import tqdm
+
+# 한글 폰트 설정
+def setup_korean_font():
+    """한글 폰트 설정"""
+    try:
+        # Windows에서 주로 사용되는 한글 폰트들 시도
+        korean_fonts = ['Malgun Gothic', 'NanumGothic', 'AppleGothic', 'Dotum']
+        available_fonts = [f.name for f in fm.fontManager.ttflist]
+        
+        for font in korean_fonts:
+            if font in available_fonts:
+                plt.rcParams['font.family'] = font
+                plt.rcParams['font.sans-serif'] = [font] + plt.rcParams['font.sans-serif']
+                break
+        else:
+            print("한글 폰트를 찾을 수 없어 기본 설정 사용")
+        
+        # 마이너스 기호 문제 해결
+        plt.rcParams['axes.unicode_minus'] = False
+        plt.rcParams['mathtext.fontset'] = 'stix'
+        plt.rcParams['font.serif'] = ['Times New Roman'] + plt.rcParams['font.serif']
+        
+        print("한글 폰트 설정 완료")
+        return True
+        
+    except Exception as e:
+        print(f"폰트 설정 중 오류: {e}")
+        plt.rcParams['axes.unicode_minus'] = False
+        return False
+
+# 폰트 설정 적용
+setup_korean_font()
 
 
 class RadarDataAnalyzer:

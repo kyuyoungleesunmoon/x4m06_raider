@@ -10,12 +10,42 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.font_manager as fm
 from matplotlib.gridspec import GridSpec
 import seaborn as sns
 from jamming_simulator import FMCWRadarSimulator, SpectrogramGenerator
 
 # 한글 폰트 설정
-plt.rcParams['font.family'] = 'DejaVu Sans'
+def setup_korean_font():
+    """한글 폰트 설정"""
+    try:
+        # Windows에서 주로 사용되는 한글 폰트들 시도
+        korean_fonts = ['Malgun Gothic', 'NanumGothic', 'AppleGothic', 'Dotum']
+        available_fonts = [f.name for f in fm.fontManager.ttflist]
+        
+        for font in korean_fonts:
+            if font in available_fonts:
+                plt.rcParams['font.family'] = font
+                plt.rcParams['font.sans-serif'] = [font] + plt.rcParams['font.sans-serif']
+                break
+        else:
+            print("한글 폰트를 찾을 수 없어 기본 설정 사용")
+        
+        # 마이너스 기호 문제 해결
+        plt.rcParams['axes.unicode_minus'] = False
+        plt.rcParams['mathtext.fontset'] = 'stix'
+        plt.rcParams['font.serif'] = ['Times New Roman'] + plt.rcParams['font.serif']
+        
+        print("한글 폰트 설정 완료")
+        return True
+        
+    except Exception as e:
+        print(f"폰트 설정 중 오류: {e}")
+        plt.rcParams['axes.unicode_minus'] = False
+        return False
+
+# 폰트 설정 적용
+setup_korean_font()
 plt.rcParams['font.size'] = 10
 
 class JammingVisualizationDemo:
@@ -23,7 +53,25 @@ class JammingVisualizationDemo:
     
     def __init__(self):
         """초기화"""
-        self.radar_sim = FMCWRadarSimulator()
+        # 기본 config로 초기화하고 디버깅 정보 출력
+        config = {
+            'center_freq': 8.748e9,
+            'bandwidth': 1.4e9,
+            'chirp_duration': 1e-3,
+            'prf': 1000,
+            'sampling_rate': 1e6,
+            'target_range': [5, 50],
+            'target_velocity': [-30, 30],
+            'target_rcs': [0.1, 10],
+            'num_jammers': [1, 4],  # 문제 해결: 더 작은 범위로 설정
+            'jammer_power_ratio': [0.5, 3.0],
+            'freq_offset_range': [-0.1e9, 0.1e9],
+            'time_offset_range': [0, 0.8e-3],
+            'snr_db': [10, 30],
+        }
+        
+        print(f"재밍 데모용 config 설정: num_jammers = {config['num_jammers']}")
+        self.radar_sim = FMCWRadarSimulator(config)
         self.spec_gen = SpectrogramGenerator()
         
         # 시각화 색상 팔레트
@@ -115,8 +163,8 @@ class JammingVisualizationDemo:
             row = i // 3
             col = i % 3
             
-            # 다중 재머로 재밍된 신호 생성
-            self.radar_sim.config['num_jammers'] = [num_jammers, num_jammers]
+            # 다중 재머로 재밍된 신호 생성 (고정된 재머 개수)
+            self.radar_sim.config['num_jammers'] = [num_jammers, num_jammers + 1]  # +1하여 범위 생성
             jammed_signal, jammer_params = self.radar_sim.generate_jammed_signal(clean_signal)
             
             # 시간 영역 플롯

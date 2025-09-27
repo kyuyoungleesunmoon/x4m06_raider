@@ -1,0 +1,16 @@
+{
+  "session_id": "20250927_185029",
+  "start_time": "2025-09-27T18:50:29.010488",
+  "experiments": [
+    {
+      "type": "simulation",
+      "config": {
+        "num_samples": 100
+      },
+      "status": "failed",
+      "error": "'radar_config'",
+      "end_time": "2025-09-27T18:50:29.010813"
+    }
+  ],
+  "end_time": "2025-09-27T18:50:29.010891"
+}

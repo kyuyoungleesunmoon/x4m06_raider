@@ -1,0 +1,64 @@
+{
+  "session_id": "20250927_185357",
+  "start_time": "2025-09-27T18:53:57.816201",
+  "experiments": [
+    {
+      "type": "simulation",
+      "config": {
+        "num_samples": 50,
+        "num_visualize": 5,
+        "save_format": "hdf5",
+        "radar_config": {
+          "center_freq": 8748000000.0,
+          "bandwidth": 1400000000.0,
+          "chirp_duration": 0.001,
+          "prf": 1000,
+          "sampling_rate": 1000000.0,
+          "target_range": [
+            5,
+            50
+          ],
+          "target_velocity": [
+            -30,
+            30
+          ],
+          "target_rcs": [
+            0.1,
+            10
+          ],
+          "num_jammers": [
+            1,
+            5
+          ],
+          "jammer_power_ratio": [
+            0.5,
+            2.0
+          ],
+          "freq_offset_range": [
+            -100000000.0,
+            100000000.0
+          ],
+          "time_offset_range": [
+            0,
+            0.0008
+          ],
+          "snr_db": [
+            15,
+            25
+          ]
+        },
+        "stft_params": {
+          "nperseg": 256,
+          "noverlap": 128,
+          "nfft": 512,
+          "window": "hann"
+        }
+      },
+      "dataset_file": "experiment_results\\session_20250927_185357\\simulation\\radar_jamming_dataset_50.h5",
+      "output_dir": "experiment_results\\session_20250927_185357\\simulation",
+      "status": "success",
+      "end_time": "2025-09-27T18:54:02.680113"
+    }
+  ],
+  "end_time": "2025-09-27T18:54:02.680253"
+}

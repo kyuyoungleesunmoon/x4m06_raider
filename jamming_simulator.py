@@ -9,6 +9,7 @@ X4M06 레이더 재밍 환경 시뮬레이터
 
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.font_manager as fm
 from scipy import signal
 from scipy.fft import fft, fftfreq
 import pickle
@@ -17,6 +18,38 @@ import json
 from datetime import datetime
 from tqdm import tqdm
 import h5py
+
+# 한글 폰트 설정
+def setup_korean_font():
+    """한글 폰트 설정"""
+    try:
+        # Windows에서 주로 사용되는 한글 폰트들 시도
+        korean_fonts = ['Malgun Gothic', 'NanumGothic', 'AppleGothic', 'Dotum']
+        available_fonts = [f.name for f in fm.fontManager.ttflist]
+        
+        for font in korean_fonts:
+            if font in available_fonts:
+                plt.rcParams['font.family'] = font
+                plt.rcParams['font.sans-serif'] = [font] + plt.rcParams['font.sans-serif']
+                break
+        else:
+            print("한글 폰트를 찾을 수 없어 기본 설정 사용")
+        
+        # 마이너스 기호 문제 해결
+        plt.rcParams['axes.unicode_minus'] = False
+        plt.rcParams['mathtext.fontset'] = 'stix'
+        plt.rcParams['font.serif'] = ['Times New Roman'] + plt.rcParams['font.serif']
+        
+        print("한글 폰트 설정 완료")
+        return True
+        
+    except Exception as e:
+        print(f"폰트 설정 중 오류: {e}")
+        plt.rcParams['axes.unicode_minus'] = False
+        return False
+
+# 폰트 설정 적용
+setup_korean_font()
 
 
 class FMCWRadarSimulator:
@@ -254,19 +287,19 @@ class SpectrogramGenerator:
             'window': 'hann',    # 윈도우 함수
         }
     
-    def generate_spectrogram(self, signal, sampling_rate):
+    def generate_spectrogram(self, input_signal, sampling_rate):
         """
         신호로부터 스펙트로그램 생성
         
         Args:
-            signal (np.ndarray): 입력 신호
+            input_signal (np.ndarray): 입력 신호
             sampling_rate (float): 샘플링 주파수
         
         Returns:
             tuple: (주파수, 시간, 스펙트로그램)
         """
         f, t, Zxx = signal.stft(
-            signal,
+            input_signal,
             fs=sampling_rate,
             **self.stft_params
         )
