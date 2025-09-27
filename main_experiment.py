@@ -380,43 +380,44 @@ class ExperimentManager:
         print(f"실험 요약 리포트 저장: {summary_file}")
     
     def _get_default_simulation_config(self):
-        """기본 시뮬레이션 설정"""
+        """기본 시뮬레이션 설정 - 1m 이내 실내 실험 최적화"""
         return {
             'num_samples': 1000,
             'num_visualize': 5,
             'save_format': 'hdf5',
             'radar_config': {
-                'center_freq': 8.748e9,
-                'bandwidth': 1.4e9,
-                'chirp_duration': 1e-3,
-                'prf': 1000,
-                'sampling_rate': 1e6,
-                'target_range': [5, 50],
-                'target_velocity': [-30, 30],
-                'target_rcs': [0.1, 10],
-                'num_jammers': [1, 5],
+                'center_freq': 8.748e9,      # 8.748 GHz (X4M06 중심 주파수)
+                'bandwidth': 1.4e9,          # 1.4 GHz (거리 분해능 ~10.7cm)
+                'chirp_duration': 50e-6,     # 50μs (현실적 지속시간)
+                'prf': 1000,                # 1 kHz (업데이트 레이트)
+                'sampling_rate': 10e6,       # 10 MHz (충분한 해상도)
+                'target_range': [0.2, 2.0],  # 20cm-2m (X4M06 최소거리 고려)
+                'target_velocity': [-2, 2],  # ±2 m/s (실내 이동 속도)
+                'target_rcs': [0.01, 1.0],   # 작은 물체 대응 (책, 의자 등)
+                'num_jammers': [1, 3],       # 실내 환경 맞춤
                 'jammer_power_ratio': [0.5, 2.0],
-                'freq_offset_range': [-0.1e9, 0.1e9],
-                'time_offset_range': [0, 0.8e-3],
-                'snr_db': [15, 25],
+                'freq_offset_range': [-0.05e9, 0.05e9],  # 범위 축소
+                'time_offset_range': [0, 40e-6],    # 40μs 이내 (처프 지속시간 내)
+                'snr_db': [10, 20],          # 실내 환경 맞춤
             },
             'stft_params': {
-                'nperseg': 256,
-                'noverlap': 128,
-                'nfft': 512,
+                'nperseg': 128,              # 더 세밀한 시간 분해능
+                'noverlap': 64,              # 50% 중첩
+                'nfft': 256,                 # FFT 포인트 (주파수 분해능)
                 'window': 'hann',
             }
         }
     
     def _get_default_hardware_config(self):
-        """기본 하드웨어 설정"""
+        """기본 하드웨어 설정 - 1m 이내 실내 실험"""
         return {
             'baseline_frames': 1000,
             'run_scenarios': True,
             'scenarios': [
-                {'name': 'close_range', 'description': '근거리 탐지 (0.5-2m)'},
-                {'name': 'medium_range', 'description': '중거리 탐지 (2-5m)'},
-                {'name': 'long_range', 'description': '원거리 탐지 (5-10m)'},
+                {'name': 'close_range_20cm', 'description': '초근거리 (15-25cm)'},
+                {'name': 'close_range_40cm', 'description': '근거리 (35-45cm)'},
+                {'name': 'close_range_60cm', 'description': '중근거리 (55-65cm)'},
+                {'name': 'close_range_80cm', 'description': '원근거리 (75-85cm)'},
             ],
             'radar_config': {
                 'dac_min': 900,
