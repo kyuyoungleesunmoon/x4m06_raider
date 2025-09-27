@@ -279,11 +279,11 @@ class SpectrogramGenerator:
         self.stft_params = stft_params
     
     def get_default_stft_params(self):
-        """기본 STFT 파라미터"""
+        """기본 STFT 파라미터 - X4M06 실험실 환경 최적화"""
         return {
-            'nperseg': 256,      # 세그먼트 길이
-            'noverlap': 128,     # 오버랩 샘플 수
-            'nfft': 512,         # FFT 포인트 수
+            'nperseg': 128,      # 세그먼트 길이 (500 샘플에 적합)
+            'noverlap': 64,      # 오버랩 샘플 수 (50% 중첩)
+            'nfft': 256,         # FFT 포인트 수
             'window': 'hann',    # 윈도우 함수
         }
     
@@ -564,30 +564,30 @@ def main():
     # 출력 디렉토리 설정
     output_dir = "synthetic_dataset"
     
-    # 레이더 시뮬레이터 초기화
+    # 레이더 시뮬레이터 초기화 - 1m 이내 실내 실험 최적화
     radar_config = {
-        'center_freq': 8.748e9,
-        'bandwidth': 1.4e9,
-        'chirp_duration': 1e-3,
-        'prf': 1000,
-        'sampling_rate': 1e6,
-        'target_range': [5, 50],
-        'target_velocity': [-30, 30],
-        'target_rcs': [0.1, 10],
-        'num_jammers': [1, 5],
+        'center_freq': 8.748e9,      # 8.748 GHz (X4M06 중심 주파수)
+        'bandwidth': 1.4e9,          # 1.4 GHz (거리 분해능 ~10.7cm)
+        'chirp_duration': 8e-6,      # 8μs (PRI 10μs의 80%)
+        'prf': 100000,               # 100 kHz (최대 1.5km, 실용적)
+        'sampling_rate': 2e6,        # 2 MHz (해상도 향상)
+        'target_range': [0.15, 0.9], # 15-90cm (실내 실험 적합)
+        'target_velocity': [-2, 2],  # ±2 m/s (실내 이동 속도)
+        'target_rcs': [0.01, 1.0],   # 작은 물체 대응 (책, 의자 등)
+        'num_jammers': [1, 3],       # 실내 환경 맞춤
         'jammer_power_ratio': [0.5, 2.0],
-        'freq_offset_range': [-0.1e9, 0.1e9],
-        'time_offset_range': [0, 0.8e-3],
-        'snr_db': [15, 25],
+        'freq_offset_range': [-0.05e9, 0.05e9],  # 범위 축소
+        'time_offset_range': [0, 8e-6],     # 8μs 이내 (처프 지속시간과 동일)
+        'snr_db': [10, 20],          # 실내 환경 맞춤
     }
     
     radar_sim = FMCWRadarSimulator(radar_config)
     
-    # 스펙트로그램 생성기 초기화
+    # 스펙트로그램 생성기 초기화 - 1m 이내 정밀 분석
     stft_params = {
-        'nperseg': 256,
-        'noverlap': 128,
-        'nfft': 512,
+        'nperseg': 128,              # 더 세밀한 시간 분해능
+        'noverlap': 64,              # 50% 중첩
+        'nfft': 256,                 # FFT 포인트 (주파수 분해능)
         'window': 'hann',
     }
     
