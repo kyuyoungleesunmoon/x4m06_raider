@@ -542,8 +542,13 @@ def main():
         
         if args.mode == 'simulation':
             # 시뮬레이션 실험
-            config = custom_config or {}
-            config.update({'num_samples': args.samples})
+            config = custom_config if custom_config else {}
+            
+            # 기본 config와 병합
+            default_config = experiment_manager._get_default_simulation_config()
+            if not custom_config:
+                config = default_config
+            config['num_samples'] = args.samples
             
             result = experiment_manager.run_simulation_experiment(config)
             
