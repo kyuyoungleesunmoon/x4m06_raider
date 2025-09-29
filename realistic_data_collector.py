@@ -19,8 +19,19 @@ from datetime import datetime
 from pathlib import Path
 import argparse
 import serial
+import logging
 import warnings
 warnings.filterwarnings('ignore')
+
+# 디버깅용 로깅 설정
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler('realistic_data_collector_debug.log'),
+        logging.StreamHandler()
+    ]
+)
 
 class RealisticX4M06Collector:
     """현실적 X4M06 데이터 수집기"""
@@ -414,7 +425,7 @@ class RealisticX4M06Collector:
             # 신호 데이터는 JSON 직렬화에서 제외
             metadata_only = {
                 'metadata': self.collected_data['metadata'],
-                'scenarios': list(self.collected_data.get('environmental', {}).keys()),
+                'scenarios': len(self.collected_data.get('environmental', [])),
                 'hardware_characteristics': list(self.collected_data.get('hardware_characteristics', {}).keys())
             }
             json.dump(metadata_only, f, indent=2, ensure_ascii=False)
