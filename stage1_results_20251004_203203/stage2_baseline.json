@@ -1,0 +1,45 @@
+{
+  "stage1_summary": {
+    "total_scenarios": 200,
+    "avg_snr": 2.1298276309942348,
+    "avg_correlation": 0.9029605688504314,
+    "detection_success_rate": 1.0
+  },
+  "hardware_test_targets": {
+    "target_distances_cm": [
+      20.0,
+      50.0,
+      80.0
+    ],
+    "expected_snr_range": [
+      -2.8701723690057652,
+      7.129827630994235
+    ],
+    "correlation_threshold": 0.8029605688504314
+  },
+  "recommended_jamming_tests": [
+    {
+      "power_ratio": 1.0,
+      "freq_offset": 5000000.0,
+      "time_delay": 3.33e-09,
+      "description": "중간 강도 복합 재밍"
+    },
+    {
+      "power_ratio": 2.0,
+      "freq_offset": 0,
+      "time_delay": 0,
+      "description": "강력한 전력 재밍"
+    },
+    {
+      "power_ratio": 0.5,
+      "freq_offset": 10000000.0,
+      "time_delay": 6.67e-09,
+      "description": "주파수+지연 재밍"
+    }
+  ],
+  "performance_thresholds": {
+    "minimum_snr": 10.0,
+    "minimum_correlation": 0.7,
+    "maximum_false_peaks": 2
+  }
+}
