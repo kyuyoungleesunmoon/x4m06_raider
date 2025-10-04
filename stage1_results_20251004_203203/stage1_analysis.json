@@ -1,0 +1,83 @@
+{
+  "experiment_info": {
+    "experiment_id": "20251004_203203",
+    "num_scenarios": 200,
+    "radar_config": {
+      "center_frequency": 60000000000.0,
+      "bandwidth": 1500000000.0,
+      "chirp_duration": 0.001,
+      "sampling_rate": 23328000.0,
+      "max_range": 1.0,
+      "range_resolution": 0.1,
+      "target_distances": [
+        0.2,
+        0.5,
+        0.8
+      ],
+      "target_rcs": [
+        0.1,
+        0.2,
+        0.15
+      ],
+      "target_velocities": [
+        0,
+        0.5,
+        -0.3
+      ],
+      "power_ratios": [
+        0.2,
+        0.5,
+        1.0,
+        2.0,
+        5.0
+      ],
+      "freq_offsets": [
+        -10000000.0,
+        -5000000.0,
+        0,
+        5000000.0,
+        10000000.0
+      ],
+      "time_delays": [
+        0,
+        1e-09,
+        3.33e-09,
+        6.67e-09
+      ],
+      "chirp_slope_ratios": [
+        0.9,
+        0.95,
+        1.0,
+        1.05,
+        1.1
+      ],
+      "num_samples": 1000,
+      "snr_range": [
+        10,
+        30
+      ],
+      "noise_level": -80
+    },
+    "timestamp": "2025-10-04T20:32:26.945867"
+  },
+  "performance_analysis": {
+    "performance_stats": {
+      "snr_mean": 2.1298276309942348,
+      "snr_std": 3.0776415904690917,
+      "correlation_mean": 0.9029605688504314,
+      "correlation_std": 0.03619604800022355,
+      "peak_shift_mean": 0.0,
+      "peak_shift_std": 0.0
+    },
+    "jamming_impact": {
+      "power_ratio_effect": -0.9632789646245166,
+      "freq_offset_effect": NaN,
+      "time_delay_effect": NaN
+    },
+    "critical_scenarios": {
+      "worst_snr_idx": "70",
+      "best_snr_idx": "30",
+      "most_peaks_shifted": "0"
+    }
+  }
+}
