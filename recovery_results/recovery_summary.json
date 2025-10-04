@@ -1,0 +1,27 @@
+{
+  "model_performance": {
+    "mse": 0.047111235865911164,
+    "mae": 0.19609807485010583,
+    "ssim": 0.21413133800622042
+  },
+  "data_info": {
+    "total_samples": 200,
+    "train_samples": 120,
+    "val_samples": 40,
+    "test_samples": 40,
+    "spectrogram_shape": [
+      64,
+      64,
+      1
+    ]
+  },
+  "model_info": {
+    "total_parameters": 31054145,
+    "input_shape": [
+      64,
+      64,
+      1
+    ],
+    "architecture": "U-Net"
+  }
+}
